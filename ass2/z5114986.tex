@@ -4,10 +4,12 @@
 \usepackage{mathtools}
 \usepackage{enumitem}
 \usepackage{fancyhdr}
+\usepackage{chngcntr}
 \lhead{Evan Kohilas - z5114986}
 \rhead{COMP3821 - Assignment 2}
 \pagestyle{fancy}
 \title{A17S1N1}
+\counterwithin*{equation}{section}
 \begin{document}
 \begin{center}
     \begin{LARGE}
@@ -28,20 +30,77 @@
 
 \section*{Question 1}
 \begin{enumerate}[label=\alph*)]
-    \item text a goes\\
-        here
-    \item text b goes\\
-        here
+    \item
+        \begin{gather}
+            \text{let } A^n
+            = \begin{pmatrix} F(n+1) & F(n) \\ F(n) & F(n-1)  \end{pmatrix}
+        \end{gather}
+        When $n = 1$
+        \begin{gather}
+            A^1 = \begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}
+        \end{gather}
+        Assume $n = k$
+        \begin{gather}
+            A^k = \begin{pmatrix} F(k+1) & F(k) \\ F(k) & F(k-1)  \end{pmatrix}
+        \end{gather}
+        let $n = k + 1$
+        \begin{align}
+            A^{k+1} &= AA^k \\
+            &= \begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}\begin{pmatrix} F(k+1) & F(k) \\ F(k) & F(k-1)\end{pmatrix} \\
+                &= \begin{pmatrix} F(k+1) + F(k) & F(k) + F(k-1) \\ F(k+1) & F(k)  \end{pmatrix} \\
+                    &= \begin{pmatrix} F(k+2) & F(k+1) \\ F(k+1) & F(k)  \end{pmatrix}
+        \end{align}
+        Therefore the forumla is true by induction for all $n > 0$.
+    \item
+        $F(n)$ can be found in $log_{2}(n)$ matrix multiplications using a recursive algorithm
+        \begin{verbatim}
+matrix = ((1, 1), (1,0))
+func(n):
+    if n == 1:
+        return matrix
+    if n is even:
+        return func(n/2)^2
+    if n is odd:
+        return func(n-1) * matrix
+        \end{verbatim}
 \end{enumerate}
 
 \section*{Question 2}
 \begin{enumerate}[label=\alph*)]
-    \item text a goes\\
-        here
-    \item text b goes\\
-        here
-    \item text c goes\\
-        here
+    \item
+        First we calculate the Karastuba trick.
+        \setcounter{equation}{0}
+        \begin{gather}
+            (a + b)(c + d) = ac + ad + bd + bc \\
+            ad + bd = (a + b)(c + d) - ac - bc
+        \end{gather}
+        Then we substitute $(2)$ into $(4)$
+        \begin{align}
+            (a + ib)(c + id) &= ac + adi + bdi + bc \\
+            &= ac + i(ad + bd) + bc \\
+            &= ac + i((a + b)(c + d) - ac - bc) + bc
+        \end{align}
+    \item
+        \setcounter{equation}{0}
+        First we calculate the Karastuba trick.
+        \begin{gather}
+            (a + b)^2 = a^2 + b^2 + 2ab \\
+            2ab = (a + b)^2 - a^2 - b^2
+        \end{gather}
+        Then we substitute $(2)$ into $(3)$
+        \begin{align}
+            (a + ib)^2 &= a^2 + 2abi - b^2 \\
+            &= a^2 + i((a + b)^2 - a^2 - b^2) - b^2
+        \end{align}
+    \item
+        \setcounter{equation}{0}
+        By re-arranging by the laws of exponents:
+        \begin{gather*}
+            (a+ib)^2(c+id)^2 = ((a+ib)(c+id))^2
+        \end{gather*}
+        thus from above, we then calculate the middle multiplication using
+        3 real number multiplications, and then we find the square as above
+        using 2 more real number multiplications.
 \end{enumerate}
 
 \section*{Question 3}
