@@ -104,6 +104,14 @@ func(n):
 \end{enumerate}
 
 \section*{Question 3}
+Expand $P(x)$ and $Q(x)$ as follows.
+\begin{align}
+    P(x) = (a_0 + x^{17}(a_{17} + x^2(a_{19} + x^2(a_{21} + x^2a_{23})))) \\
+    Q(x) = (b_0 + x^{17}(b_{17} + x^2(b_{19} + x^2(b_{21} + x^2b_{23}))))
+\end{align}
+For every pair, we can calculate its multiplication with 3 large number multiplication using the Karatsuba trick.
+As there are 4 pairs, we get 12 large number multiplications
+
 
 \section*{Question 4}
 As $P(x)$ has all 15 roots of unity, and $x^{15} - 1$ and $P(x)$ are both of the same degree and are both monic then it follows that
