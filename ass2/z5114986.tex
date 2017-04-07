@@ -51,6 +51,7 @@
                     &= \begin{pmatrix} F(k+2) & F(k+1) \\ F(k+1) & F(k)  \end{pmatrix}
         \end{align}
         Therefore the forumla is true by induction for all $n > 0$.
+    \pagebreak
     \item
         $F(n)$ can be found in $log_{2}(n)$ matrix multiplications using a recursive algorithm
         \begin{verbatim}
@@ -103,15 +104,29 @@ func(n):
         using 2 more real number multiplications.
 \end{enumerate}
 
+\pagebreak
 \section*{Question 3}
 Expand $P(x)$ and $Q(x)$ as follows.
-\begin{align}
-    P(x) = (a_0 + x^{17}(a_{17} + x^2(a_{19} + x^2(a_{21} + x^2a_{23})))) \\
-    Q(x) = (b_0 + x^{17}(b_{17} + x^2(b_{19} + x^2(b_{21} + x^2b_{23}))))
-\end{align}
-For every pair, we can calculate its multiplication with 3 large number multiplication using the Karatsuba trick.
-As there are 4 pairs, we get 12 large number multiplications
-
+\begin{align*}
+    & P(x) = a_0 + x^{17}(a_{17} + a_{19}x^{2} + a_{21}x^4 + a_{23}x^6)\\
+    & Q(x) = b_0 + x^{17}(b_{17} + b_{19}x^{2} + b_{21}x^4 + b_{23}x^6)
+\end{align*}
+let $y = x^2$ so that
+\begin{align*}
+    & R_a(y) = a_{17} + a_{19}y + a_{21}y^2 + a_{23}y^3\\
+    & R_b(y) = b_{17} + b_{19}y + b_{21}y^2 + b_{23}y^3
+\end{align*}
+then
+\begin{align*}
+    & P(x)Q(x) = a_0b_0 + x^{17}(a_0R_b(x^2) + b_0R_a(x^2)) + x^{34}R_a(x^2)R_b(x^2)
+\end{align*}
+through brute force, we then calculate
+\begin{align*}
+    & a_0b_0 \text{ to require 1 multiplication}\\
+    & a_0R_b(x^2) \text{ and } b_0R_a(x^2) \text{ to require 4 multiplcations each}
+\end{align*}
+then to multiply $R_a(x^2)R_b(x^2)$ (of degree 3), we require $2(3)+1 = 7$ multiplcations using the generalised Karatsuba method.\\
+and so we get $1 + 4 + 4 + 7 = 16$ multiplications of large numbers.
 
 \section*{Question 4}
 As $P(x)$ has all 15 roots of unity, and $x^{15} - 1$ and $P(x)$ are both of the same degree and are both monic then it follows that
@@ -120,11 +135,21 @@ P(x) = x^{15} -1
 \end{gather*}
 
 \section*{Question 5}
-For any input $(a_0, a_1, a_2, ..., a_{2^n-1})$, we can describe $a_i$'s new position by converting $i$ to binary and finding the reversed sequence.
+For any input $(a_0, a_1, a_2, ..., a_{2^n-1})$, we can describe $a_i$'s new position by converting $i$ to $n$ binary places and finding the reversed sequence.
 e.g. $6 \rightarrow 110 \rightarrow 011 \rightarrow 3$
 
 \section*{Question 6}
-text goes here
+let
+\begin{align}
+    f_m &= \sum_{i+j=m} (j+1)q_jq_i \\
+    p_j &= (j+1)q_j
+\end{align}
+then subsitute $(2)$ into $(1)$
+\begin{align}
+    & \sum_{i+j=m} p_jq_i = \vec{p} \ast \vec{q}
+\end{align}
+as $(3)$ is a linear convolution, $f_m$ can be computed in $O(nlog{n})$
+
 
 \section*{Question 7}
 \begin{enumerate}[label=\alph*)]
