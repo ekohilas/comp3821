@@ -1,10 +1,11 @@
 \documentclass{article}
-\usepackage{geometry}
+\usepackage[margin=1in]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage{mathtools}
 \usepackage{enumitem}
 \usepackage{fancyhdr}
 \usepackage{chngcntr}
+\usepackage{changepage}
 \lhead{Evan Kohilas - z5114986}
 \rhead{COMP3821 - Assignment 2}
 \pagestyle{fancy}
@@ -51,7 +52,6 @@
             &= \begin{pmatrix} F(k+2) & F(k+1) \\ F(k+1) & F(k)  \end{pmatrix}
         \end{align}
         Therefore the forumla is true by induction for all $n > 0$.
-    \pagebreak
     \item
         $F(n)$ can be found in $log_{2}(n)$ matrix multiplications using a recursive algorithm
         \begin{verbatim}
@@ -81,30 +81,30 @@ func(n):
             &= ac + i(ad + bd) + bc \\
             &= ac + i((a + b)(c + d) - ac - bc) + bc
         \end{align}
+        Thus only requiring 3 real number multiplications.
     \item
         \setcounter{equation}{0}
-        First we calculate the Karastuba trick.
+        First we calculate
         \begin{gather}
-            (a + b)^2 = a^2 + b^2 + 2ab \\
-            2ab = (a + b)^2 - a^2 - b^2
+            a^2 - b^2 = (a + b)(a - b)
         \end{gather}
-        Then we substitute $(2)$ into $(3)$
+        Then we substitute $(1)$ into $(2)$
         \begin{align}
-            (a + ib)^2 &= a^2 + 2abi - b^2 \\
-            &= a^2 + i((a + b)^2 - a^2 - b^2) - b^2
+            (a + ib)^2 &= a^2 - b^2 + 2abi\\
+            &= (a + b)(a - b) + 2abi
         \end{align}
+        Thus only requiring 2 real number multiplications
     \item
         \setcounter{equation}{0}
         By re-arranging by the laws of exponents:
         \begin{gather*}
             (a+ib)^2(c+id)^2 = ((a+ib)(c+id))^2
         \end{gather*}
-        thus from above, we then calculate the middle multiplication using
+        Thus from above, we then calculate the middle multiplication using
         3 real number multiplications, and then we find the square as above
         using 2 more real number multiplications.
 \end{enumerate}
 
-\pagebreak
 \section*{Question 3}
 Expand $P(x)$ and $Q(x)$ as follows.
 \begin{align*}
@@ -148,17 +148,50 @@ then subsitute $(2)$ into $(1)$
 \begin{align}
     & \sum_{i+j=m} p_jq_i = \vec{p} \ast \vec{q}
 \end{align}
-as $(3)$ is a linear convolution, $f_m$ can be computed in $O(nlog{n})$
+as $(3)$ is a linear convolution, $f_m$ can be computed in $O(nlog{n})$ time by transforming $\vec{p}$ and $\vec{q}$ to a point value representation using FFT, calculating the linear multiplication, and then transforming back to coefficient form using inverse FFT.
 
 
 \section*{Question 7}
 \begin{enumerate}[label=\alph*)]
-    \item Assuming the furtest distance from 1 corner to it's opposite corner, an inefficient algorithm would require (2+3)*2+(n-2)*4 such queries
+    \item Starting at $(0,0)$ any spiral arrangement such as the one below would require $n^2$ queries to find the middle element as the local minimum.
+        \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            \textbf{16} & \textbf{15} & \textbf{14} & \textbf{13} & \textbf{12} \\ \hline
+            17          & 18          & 19          & 20          & \textbf{11} \\ \hline
+            \textbf{2}  & \textbf{1}  & \textbf{0}  & 21          & \textbf{10} \\ \hline
+            \textbf{3}  & 24          & 23          & 22          & \textbf{9}  \\ \hline
+            \textbf{4}  & \textbf{5}  & \textbf{6}  & \textbf{7}  & \textbf{8}  \\ \hline
+        \end{tabular}
+        \end{center}
     \item text b goes\\
         here
 \end{enumerate}
 
 \section*{Question 8}
-text goes here
+\begin{align*}
+    \text{let } &A(k) = k^{th} \text{smallest element of } A\\
+    \text{let } &B(k) = k^{th} \text{smallest element of } B\\
+    \text{let } &i \text{ be the current iteration (starting from 1)}\\
+    \text{let } &s(i) = \lfloor\frac{n}{2^i}\rfloor\\
+    \text{let } &a =\lfloor\frac{n}{2^i}\rfloor, b = \lfloor\frac{n+1}{2^i}\rfloor \\
+    \text{let } &m_a = A(a + 1), m_b = B(b + 1)\\
+    \text{let } &N \text{ be the set of } n \text{ elements such that } \forall x \in N \cap A, x < m_a \text{ and } \forall x \in N \cap B, x < m_b\\
+\end{align*}
+When all elements in $N$ are smaller than $m_a$ and $m_b$, the median will be the smallest of both $m_a$ and $m_b$.\\
+
+\noindent
+if $B(b) > m_a$ then there exist elements in $N$ that are not smaller than $m_a$:\\
+    \indent Therefore, we change $m_a$ and $m_b$ and increment $i$.\\
+    \indent We increase $a$ by $s(i)$ to consider elements that may be smaller than the median.\\
+    \indent We decrease $b$ by $s(i)$ to ignore elemenents that may be bigger than the median.\\
+else if $A(a) > m_b$ then there exist elements in $N$ that are not smaller than $m_b$:\\
+    \indent Therefore, we change $m_a$ and $m_b$ and increment $i$.\\
+    \indent We decrease $a$ by $s(i)$ to ignore elemenents that may be bigger than the median.\\
+    \indent We increase $b$ by $s(i)$ to consider elements that may be smaller than the median.\\
+else:\\
+    \indent We stop iterating, as all elements of $N$ are smaller than both $m_a$ and $m_b$, and we take the median to be smaller of the two\\
+
+\noindent This algotihm will take at most $O(logn)$ queries, as every iteration we jump by a factor of 2, similar to that of a binary search.
 
 \end{document}
