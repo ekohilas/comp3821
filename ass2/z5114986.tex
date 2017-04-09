@@ -5,7 +5,7 @@
 \usepackage{enumitem}
 \usepackage{fancyhdr}
 \usepackage{chngcntr}
-\usepackage{changepage}
+\usepackage[table,xcrdaw]{xcolor}
 \lhead{Evan Kohilas - z5114986}
 \rhead{COMP3821 - Assignment 2}
 \pagestyle{fancy}
@@ -51,9 +51,9 @@
             &= \begin{pmatrix} F(k+1) + F(k) & F(k) + F(k-1) \\ F(k+1) & F(k)  \end{pmatrix} \\
             &= \begin{pmatrix} F(k+2) & F(k+1) \\ F(k+1) & F(k)  \end{pmatrix}
         \end{align}
-        Therefore the forumla is true by induction for all $n > 0$.
+        Therefore the formula is true by induction for all $n > 0$.
     \item
-        $F(n)$ can be found in $log_{2}(n)$ matrix multiplications using a recursive algorithm
+        $F(n)$ can be found in $\log n$ matrix multiplications using a recursive algorithm
         \begin{verbatim}
 matrix = ((1, 1), (1,0))
 func(n):
@@ -123,9 +123,9 @@ then
 through brute force, we then calculate
 \begin{align*}
     & a_0b_0 \text{ to require 1 multiplication}\\
-    & a_0R_b(x^2) \text{ and } b_0R_a(x^2) \text{ to require 4 multiplcations each}
+    & a_0R_b(x^2) \text{ and } b_0R_a(x^2) \text{ to require 4 multiplications each}
 \end{align*}
-then to multiply $R_a(x^2)R_b(x^2)$ (of degree 3), we require $2(3)+1 = 7$ multiplcations using the generalised Karatsuba method.\\
+then to multiply $R_a(x^2)R_b(x^2)$ (of degree 3), we require $2(3)+1 = 7$ multiplications using the generalised Karatsuba method.\\
 and so we get $1 + 4 + 4 + 7 = 16$ multiplications of large numbers.
 
 \section*{Question 4}
@@ -144,29 +144,120 @@ let
     f_m &= \sum_{i+j=m} (j+1)q_jq_i \\
     p_j &= (j+1)q_j
 \end{align}
-then subsitute $(2)$ into $(1)$
+then substitute $(2)$ into $(1)$
 \begin{align}
     & \sum_{i+j=m} p_jq_i = \vec{p} \ast \vec{q}
 \end{align}
-as $(3)$ is a linear convolution, $f_m$ can be computed in $O(nlog{n})$ time by transforming $\vec{p}$ and $\vec{q}$ to a point value representation using FFT, calculating the linear multiplication, and then transforming back to coefficient form using inverse FFT.
+as $(3)$ is a linear convolution, $f_m$ can be computed in $O(n\log n )$ time by transforming $\vec{p}$ and $\vec{q}$ to a point value representation using FFT, calculating the linear multiplication, and then transforming back to coefficient form using inverse FFT.
 
-
+\pagebreak
 \section*{Question 7}
 \begin{enumerate}[label=\alph*)]
     \item Starting at $(0,0)$ any spiral arrangement such as the one below would require $n^2$ queries to find the middle element as the local minimum.
         \begin{center}
-        \begin{tabular}{|c|c|c|c|c|}
-            \hline
-            \textbf{16} & \textbf{15} & \textbf{14} & \textbf{13} & \textbf{12} \\ \hline
-            17          & 18          & 19          & 20          & \textbf{11} \\ \hline
-            \textbf{2}  & \textbf{1}  & \textbf{0}  & 21          & \textbf{10} \\ \hline
-            \textbf{3}  & 24          & 23          & 22          & \textbf{9}  \\ \hline
-            \textbf{4}  & \textbf{5}  & \textbf{6}  & \textbf{7}  & \textbf{8}  \\ \hline
-        \end{tabular}
+\texttt{%
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\rowcolor[HTML]{E6E6E6}
+16                        & 15                        & 14                        & 13 & 12                         \\ \hline
+17                        & 18                        & 19                        & 20 & \cellcolor[HTML]{E6E6E6}11 \\ \hline
+\cellcolor[HTML]{E6E6E6}2 & \cellcolor[HTML]{E6E6E6}1 & \cellcolor[HTML]{E6E6E6}0 & 21 & \cellcolor[HTML]{E6E6E6}10 \\ \hline
+\cellcolor[HTML]{E6E6E6}3 & 24                        & 23                        & 22 & \cellcolor[HTML]{E6E6E6}9  \\ \hline
+\rowcolor[HTML]{E6E6E6}
+4                         & 5                         & 6                         & 7  & 8                          \\ \hline
+\end{tabular}
+}
         \end{center}
-    \item Using the fact that a surface attains its minimal height either along its edges or in the interior, we can develop a divide-and-conquer algorithm
-        if n is odd: 6n-9
-        if n is even: 8n-16
+    \item Using the fact that a surface attains its minimal height either along its edges or in the interior, we can develop a divide-and-conquer algorithm by first finding the minimal height along a grid's boundary rows \& columns, and center rows \& columns as follows for an odd and even $n$.
+\begin{center}
+\texttt{%
+\begin{tabular}{|
+>{\columncolor[HTML]{E6E6E6}}c |c|c|c|
+>{\columncolor[HTML]{E6E6E6}}c |c|c|c|
+>{\columncolor[HTML]{E6E6E6}}c |}
+\hline
+\rowcolor[HTML]{E6E6E6}
+25 & 75 & 63 & 34 & 9 & 45 & 49 & 57 & 77 \\ \hline
+3  & 58 & 6 & 51 & 4 & 27 & 39 & 18 & 76 \\ \hline
+62 & 33 & 46 & 59 & 36                        & 11 & 50 & 5  & 42 \\ \hline
+10 & 0  & 15 & 60 & 55                        & 35 & 74 & 28 & 14 \\ \hline
+\rowcolor[HTML]{E6E6E6}
+30 & 68 & 78 & 21 & 31                        & 29 & 54 & 73 & 65 \\ \hline
+40 & 48 & 80 & 43 & 44                        & 38 & 37 & 23 & 72 \\ \hline
+19 & 7  & 22 & 32 & \cellcolor[HTML]{CCCCCC}2 & 1  & 67 & 70 & 71 \\ \hline
+64 & 61 & 56 & 8  & 79                        & 16 & 52 & 17 & 69 \\ \hline
+\rowcolor[HTML]{E6E6E6}
+13 & 47 & 12 & 20 & 66                        & 41 & 26 & 24 & 53 \\ \hline
+\end{tabular}
+\quad
+\begin{tabular}{|
+>{\columncolor[HTML]{E6E6E6}}c |c|c|
+>{\columncolor[HTML]{E6E6E6}}c |
+>{\columncolor[HTML]{E6E6E6}}c |c|c|
+>{\columncolor[HTML]{E6E6E6}}c |}
+\hline
+\rowcolor[HTML]{E6E6E6}
+16 & 8  & 25 & 24 & 22 & 38 & 37 & 53 \\ \hline
+54 & 3  & 27 & 17 & 57 & 10 & 35 & 62 \\ \hline
+4  & 28 & 5  & 52 & 34 & 56 & 42 & 18 \\ \hline
+\rowcolor[HTML]{E6E6E6}
+20 & 12 & 6  & 11 & 21 & 49 & 26 & 61 \\ \hline
+\rowcolor[HTML]{E6E6E6}
+46 & 33 & 2  & 60 & 40 & 41 & 58 & 14 \\ \hline
+48 & 47 & 51 & 9  & 43 & 13 & 23 & 19 \\ \hline
+45 & 7  & 30 & 63 & 36 & 50 & 0  & 29 \\ \hline
+\rowcolor[HTML]{E6E6E6}
+39 & 44 & 15 & 59 & 55 & 31 & \cellcolor[HTML]{CCCCCC}1  & 32 \\ \hline
+\end{tabular}
+}
+\end{center}
+We then check to see if the minimal height is a local minimum.\\
+If it is, we return it, otherwise we recurse into the quadrant of its smallest neighbour, including our original boundary, as follows,
+\begin{center}
+\texttt{%
+\begin{tabular}{|
+>{\columncolor[HTML]{E6E6E6}}c |c|c|c|
+>{\columncolor[HTML]{CCCCCC}}c |c|c|c|
+>{\columncolor[HTML]{CCCCCC}}c |}
+\hline
+25 & \cellcolor[HTML]{E6E6E6}75 & \cellcolor[HTML]{E6E6E6}63 & \cellcolor[HTML]{E6E6E6}34 & \cellcolor[HTML]{E6E6E6}9  & \cellcolor[HTML]{E6E6E6}45 & \cellcolor[HTML]{E6E6E6}49 & \cellcolor[HTML]{E6E6E6}57 & \cellcolor[HTML]{E6E6E6}77 \\ \hline
+3  & 58                         & 6                          & 51                         & \cellcolor[HTML]{E6E6E6}4  & 27                         & 39                         & 18                         & \cellcolor[HTML]{E6E6E6}76 \\ \hline
+62 & 33                         & 46                         & 59                         & \cellcolor[HTML]{E6E6E6}36 & 11                         & 50                         & 5                          & \cellcolor[HTML]{E6E6E6}42 \\ \hline
+10 & 0                          & 15                         & 60                         & \cellcolor[HTML]{E6E6E6}55 & 35                         & 74                         & 28                         & \cellcolor[HTML]{E6E6E6}14 \\ \hline
+30 & \cellcolor[HTML]{E6E6E6}68 & \cellcolor[HTML]{E6E6E6}78 & \cellcolor[HTML]{E6E6E6}21 & 31                         & \cellcolor[HTML]{CCCCCC}29 & \cellcolor[HTML]{CCCCCC}54 & \cellcolor[HTML]{CCCCCC}73 & 65                         \\ \hline
+40 & 48                         & 80                         & 43                         & 44                         & 38                         & \cellcolor[HTML]{CCCCCC}37 & 23                         & 72                         \\ \hline
+19 & 7                          & 22                         & 32                         & 2                          & \cellcolor[HTML]{B3B3B3}1  & \cellcolor[HTML]{CCCCCC}67 & \cellcolor[HTML]{CCCCCC}70 & 71                         \\ \hline
+64 & 61                         & 56                         & 8                          & 79                         & 16                         & \cellcolor[HTML]{CCCCCC}52 & 17                         & 69                         \\ \hline
+13 & \cellcolor[HTML]{E6E6E6}47 & \cellcolor[HTML]{E6E6E6}12 & \cellcolor[HTML]{E6E6E6}20 & 66                         & \cellcolor[HTML]{CCCCCC}41 & \cellcolor[HTML]{CCCCCC}26 & \cellcolor[HTML]{CCCCCC}24 & 53                         \\ \hline
+\end{tabular}
+\quad
+\begin{tabular}{|
+>{\columncolor[HTML]{E6E6E6}}c |c|c|
+>{\columncolor[HTML]{E6E6E6}}c |
+>{\columncolor[HTML]{E6E6E6}}c |c|c|
+>{\columncolor[HTML]{E6E6E6}}c |}
+\hline
+16 & \cellcolor[HTML]{E6E6E6}8  & \cellcolor[HTML]{E6E6E6}25 & 24 & 22                         & \cellcolor[HTML]{E6E6E6}38 & \cellcolor[HTML]{E6E6E6}37 & 53                         \\ \hline
+54 & 3                          & 27                         & 17 & 57                         & 10                         & 35                         & 62                         \\ \hline
+4  & 28                         & 5                          & 52 & 34                         & 56                         & 42                         & 18                         \\ \hline
+20 & \cellcolor[HTML]{E6E6E6}12 & \cellcolor[HTML]{E6E6E6}6  & 11 & 21                         & \cellcolor[HTML]{E6E6E6}49 & \cellcolor[HTML]{E6E6E6}26 & 61                         \\ \hline
+46 & \cellcolor[HTML]{E6E6E6}33 & \cellcolor[HTML]{E6E6E6}2  & 60 & \cellcolor[HTML]{CCCCCC}40 & \cellcolor[HTML]{CCCCCC}41 & \cellcolor[HTML]{CCCCCC}58 & \cellcolor[HTML]{CCCCCC}14 \\ \hline
+48 & 47                         & 51                         & 9  & \cellcolor[HTML]{CCCCCC}43 & \cellcolor[HTML]{CCCCCC}13 & \cellcolor[HTML]{CCCCCC}23 & \cellcolor[HTML]{CCCCCC}19 \\ \hline
+45 & 7                          & 30                         & 63 & \cellcolor[HTML]{CCCCCC}36 & \cellcolor[HTML]{CCCCCC}50 & \cellcolor[HTML]{B3B3B3}0  & \cellcolor[HTML]{CCCCCC}29 \\ \hline
+39 & \cellcolor[HTML]{E6E6E6}44 & \cellcolor[HTML]{E6E6E6}15 & 59 & \cellcolor[HTML]{CCCCCC}55 & \cellcolor[HTML]{CCCCCC}31 & \cellcolor[HTML]{CCCCCC}1  & \cellcolor[HTML]{CCCCCC}32 \\ \hline
+\end{tabular}
+}
+\end{center}
+Using the master theorem, we can reduce the $n \times n$ matrix to a $\sim\frac{n}{2} \times \frac{n}{2}$ matrix with $O(n)$ queries.
+\begin{align*}
+    T(n) &= T(n/2) + cn\\
+    T(n) &= T(n/4) + c\frac{n}{2} + cn\\
+    T(n) &= T(n/8) + c\frac{n}{4} + c\frac{n}{2} + cn\\
+    &\quad\quad\quad\quad\vdots\\
+    T(n) &= T(1) + cn(1 + \frac{1}{2} + \frac{1}{4} + \ldots)\\
+    T(n) &= T(1) + 2cn
+\end{align*}
+Thus, our algorithm is of $\Theta(n)$ time.
 \end{enumerate}
 
 \section*{Question 8}
@@ -177,7 +268,7 @@ as $(3)$ is a linear convolution, $f_m$ can be computed in $O(nlog{n})$ time by 
     \text{let } &s_f(i) = \lfloor\frac{n}{2^i}\rfloor, s_c(i) = \lceil\frac{n}{2^i}\rceil\\
     \text{let } &a = s_f(1), b = s_c(1)\\
     \text{let } &m_a = A(a + 1), m_b = B(b + 1)\\
-    \text{let } &N \text{ be the set of } n \text{ elements such that } \forall x \in N \cap A, x < m_a \text{ and } \forall x \in N \cap B, x < m_b\\
+    \text{let } &N \text{ be the set of } n \text{ elements such that } \forall x \in N \cap A, x < m_a \text{ and } \forall x \in N \cap B, x < m_b
 \end{align*}
 When all elements in $N$ are smaller than $m_a$ and $m_b$, the median will be the smallest of both $m_a$ and $m_b$.\\
 
@@ -188,15 +279,15 @@ So we iterate.
 if $B(b) > m_a$ then there exist elements in $N$ that are not smaller than $m_a$:\\
     \indent Therefore, we change $m_a$ and $m_b$ and increment $i$.\\
     \indent We increase $a$ by $s_c(i)$ to consider elements that may be smaller than the median.\\
-    \indent We decrease $b$ by $s_f(i)$ to ignore elemenents that may be bigger than the median.\\
+    \indent We decrease $b$ by $s_f(i)$ to ignore elements that may be larger than the median.\\
 else if $A(a) > m_b$ then there exist elements in $N$ that are not smaller than $m_b$:\\
     \indent Therefore, we change $m_a$ and $m_b$ and increment $i$.\\
-    \indent We decrease $a$ by $s_f(i)$ to ignore elemenents that may be bigger than the median.\\
+    \indent We decrease $a$ by $s_f(i)$ to ignore elements that may be larger than the median.\\
     \indent We increase $b$ by $s_c(i)$ to consider elements that may be smaller than the median.\\
 else:\\
     \indent We stop iterating, as all elements of $N$ are smaller than both $m_a$ and $m_b$, and we take the median to be smaller of the two\\
 
-\noindent This algotihm will take at most $O(logn)$ queries, as every iteration we jump by a factor of 2, similar to that of a binary search.\\
+\noindent This algorithm will take at most $O(\log n)$ queries, as every iteration we jump by a factor of 2, similar to that of a binary search.\\
 
 \noindent
 Note: if $a + 1 > n$ assume $m_b$ to be the median.
