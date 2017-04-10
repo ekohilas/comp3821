@@ -212,7 +212,7 @@ as $(3)$ is a linear convolution, $f_m$ can be computed in $O(n\log n )$ time by
 }
 \end{center}
 We then check to see if the minimal height is a local minimum.\\
-If it is, we return it, otherwise we recurse into the quadrant of its smallest neighbour, including our original boundary, as follows,
+If it is, we return it, otherwise we recurse into the quadrant of its smallest neighbour, including our original boundary, since there must be a minimum in that direction as we would be following the slope of the curve. We do this as follows.
 \begin{center}
 \texttt{%
 \begin{tabular}{|
