@@ -33,11 +33,13 @@
 \end{center}
 
 \section*{Question 1}
-let $lps$ be the largest path sum by traversing the largest branches of the tree.
+We can find the minimal tree by recursing down the tree and balancing a subtree by increasing the lengths on each side such that the path sums on both sides are equal.
 
-We can then find the minimal tree by recursing down the tree and changing the path sum for the leaf nodes, and then reducing and merging the lengths as we move back up the tree. By reducing through merging, we can always create a tree of minimal weight while still having an equal path sum, as we would be reducing all unncessary lengths.
+When we reach the final lengths, we set the smaller length to be equal to the larger length.
 
-% new_length = min(node.right.length, node.left.length) - 1
+By doing this, as all the base lengths will first become equal, all the other lengths will be balanced to their possible minimum.
+
+\begin{verbatim}
 def recurse(node):
     if node.left is leaf and node.right is leaf:
         new_length = max(node.left_length, node.right_length)
@@ -45,25 +47,12 @@ def recurse(node):
         node.right_length = new_length
         return new_length
     else:
-        node.left_length = recurse(node.right)
-        node.right_length = recurse(node.left)
-        return min(node.left_length, node.right_length)
-
-\begin{verbatim}
-recurse(node, lps, sum=0):
-    if node is leaf:
-        old_length = node.length
-        node.length = lps - sum
-        return old_length
-    else:
-        old_left_length = recurse(node.left,  lps, sum + node.left.length)
-        old_right_length = recurse(node.right, lps, sum + node.right.length)
-        new_length = max(old_left_length, old_right_length)
-        node.right.length = new_length
-        node.left.length = new_length
-        old_length = node.length
-        node.length += new_length
-        return old_length
+        right_sum = recurse(node.right)
+        left_sum = recurse(node.left)
+        max_sum_path = max(right_sum + node.right_length, left_sum + node.left_length)
+        node.left_length = max_sum_path - left_sum
+        node.right_length = max_sum_path - right_sum
+        return max_sum_path
 \end{verbatim}
 
 \pagebreak
