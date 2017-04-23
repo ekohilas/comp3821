@@ -53,56 +53,54 @@ recurse(node, lps, sum=0):
 The objects should be machined in descending order of polishing time, and then ascending order of machining time.
 
 \textbf{Proof of optimality:}\\
-let $A$ be our greedy solution produced by our algorithm and $O$ be the optimal solution.
+let $A$ be our greedy solution produced by our algorithm and $O$ be the optimal solution.\\
 let $m, p$ be the machining and poilishing time of some item and $m', p'$ be the machining and polishing time another item.
 
-let the time taken for two items done in order $a$ and $b$ be $a_m + b_m + \max(a_p - b_m, b_p)$
 
-In the case where $p' < p$ and $m' = m$:\\
-If $A$ selects $(m, p)$ to be machined first, we let $total_A = m + m' + \max(p - m', p')$\\
-In the first case where $p > m$:\\
+In the case where $p' < p$ and $m' = m$, we let the time taken for two items done in order $a$ and $b$ be $a_m + b_m + \max(a_p - b_m, b_p)$
+
+If $A$ selects $(m, p)$ to be machined first, we let $total_A = m + m' + \max(p - m', p')$
+
+In the first case where $p > m$:
 \begin{align*}
-    total_A_1 &= m + m' + p - m'
+    total_{A}^1 &= m + m' + p - m'\\
               &= m + p
 \end{align*}
 Otherwise:
 \begin{align*}
-    total_A_2 &= m + m' + p'
+    total_{A}^2 &= m + m' + p'\\
               &= 2m + p'
 \end{align*}
 
-If we violate our greedy choice and $O$ selects $p_i$ to be machined first:
-let $total_O = m' + m + \max(p' - m, p)$
+If we violate our greedy choice and $O$ selects $(m', p')$ to be machined first, \\ we let $total_O = m' + m + \max(p' - m, p)$
+
 In the first case where $p > m$:
 \begin{align*}
-    total_O_1 &= m' + m + p
+    total_{O}^1 &= m' + m + p\\
               &= 2m + p
 \end{align*}
 Otherwise:
 \begin{align*}
-    total_O_2 &= m' + m + p' - m
+    total_{O}^2 &= m' + m + p' - m\\
               &= m + p'
 \end{align*}
 
-Then we see:\\
-$total_A_1 < total_O_1$\\
-and\\
-$total_A_2 < total_O_2$\\
-Therefore $O$ is not better than $A$
+Then we see that $total_{A}^1 < total_{O}^1$ and $total_{A}^2 < total_{O}^2$.\\
+Therefore $O$ is not better than $A$.
 
-In the case where $p = p'$ and $m' < m$:\\
-We let the time taken for two activities done in order $a$ and $b$ be $a_m + \max(a_p, b_m + b_p)$\\
+In the case where $p = p'$ and $m' < m$, we let the time taken for two activities done in order $a$ and $b$ be $a_m + \max(a_p, b_m + b_p)$
+
 Using $A$, we select $(m, p)$ to be machined first, so we get:
 \begin{align*}
-    total &= m' + \max(p', m + p)
-          &= m' + \max(p', m + p')
+    total &= m' + \max(p', m + p)\\
+          &= m' + \max(p', m + p')\\
           &= m' + m + p'
 \end{align*}
 
 If we violate our greedy choice and $O$ selects $(m', p')$ to be machined first, we get:
 \begin{align*}
-    total' &= m + \max(p, m' + p')
-           &= m' + \max(p, m' + p)
+    total' &= m + \max(p, m' + p')\\
+           &= m' + \max(p, m' + p)\\
            &= m' + m + p
 \end{align*}
 
@@ -111,10 +109,6 @@ Then we see $total = total'$ showing no difference between $O$ and $A$.
 Since a change in machining time sees no difference, then there will be no difference in every other case.
 
 Therefore, $A$ is optimal as we cannot create a better solution than the greedy one produced by our algorithm.
-
-
-
-
 
 \section*{Question 3}
 If Alice makes a graph connecting people that know eachother, Alice can continously remove all people of degree less than 5 until either everyone is removed (in which case the constraints cannot hold for any ammount of invitees) or until no more people can be removed (in which case the largest number of invitees have been found).
