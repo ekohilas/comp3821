@@ -54,30 +54,67 @@ The objects should be machined in descending order of polishing time, and then a
 
 \textbf{Proof of optimality:}\\
 let $A$ be our greedy solution produced by our algorithm and $O$ be the optimal solution.
-let $m_k, p_k$ be the machining and poilishing time of the $k^{th}$ item and $m_i, p_i$ be the machining and polishing time of the $i^{th}$ item.
+let $m, p$ be the machining and poilishing time of some item and $m', p'$ be the machining and polishing time another item.
 
-In the case where $p_i < p_k$ and $m_i = m_k$:
-If $A$ selects $p_k$ to be machined first, we get:\\
-$T_A = m_k + m_i + \max(p_k - m_i, p_i)$
-$T_A_1 = m_k + m_i + p_k - m_i$
-$T_A_1 = m_k + p_k$
-$T_A_2 = m_k + m_i + p_i$
-$T_A_2 = 2m_k + p_i$
+let the time taken for two items done in order $a$ and $b$ be $a_m + b_m + \max(a_p - b_m, b_p)$
 
-If $O$ selects $p_i$ to be machined first, we get:\\
-$T_O = m_k + m_i + \max(p_i - m_k, p_k)$
-$T_O_1 = m_k + m_i + p_k$
-$T_O_1 = 2m_k + p_k$
-$T_O_2 = m_k + m_i + p_i - m_k$
-$T_O_2 = m_k + p_i$
+In the case where $p' < p$ and $m' = m$:\\
+If $A$ selects $(m, p)$ to be machined first, we let $total_A = m + m' + \max(p - m', p')$\\
+In the first case where $p > m$:\\
+\begin{align*}
+    total_A_1 &= m + m' + p - m'
+              &= m + p
+\end{align*}
+Otherwise:
+\begin{align*}
+    total_A_2 &= m + m' + p'
+              &= 2m + p'
+\end{align*}
+
+If we violate our greedy choice and $O$ selects $p_i$ to be machined first:
+let $total_O = m' + m + \max(p' - m, p)$
+In the first case where $p > m$:
+\begin{align*}
+    total_O_1 &= m' + m + p
+              &= 2m + p
+\end{align*}
+Otherwise:
+\begin{align*}
+    total_O_2 &= m' + m + p' - m
+              &= m + p'
+\end{align*}
 
 Then we see:\\
-$T_A_1 < T_O_1$
-and
-$T_A_2 < T_O_2$
+$total_A_1 < total_O_1$\\
+and\\
+$total_A_2 < total_O_2$\\
+Therefore $O$ is not better than $A$
+
+In the case where $p = p'$ and $m' < m$:\\
+We let the time taken for two activities done in order $a$ and $b$ be $a_m + \max(a_p, b_m + b_p)$\\
+Using $A$, we select $(m, p)$ to be machined first, so we get:
+\begin{align*}
+    total &= m' + \max(p', m + p)
+          &= m' + \max(p', m + p')
+          &= m' + m + p'
+\end{align*}
+
+If we violate our greedy choice and $O$ selects $(m', p')$ to be machined first, we get:
+\begin{align*}
+    total' &= m + \max(p, m' + p')
+           &= m' + \max(p, m' + p)
+           &= m' + m + p
+\end{align*}
+
+Then we see:\\
+$total
+
+Then we see there is no difference between $O$ and $A$
+Since a change in machining time sees no difference, then there will be no difference in every other case.
 
 
-If we violate our greedy choice and select $p_i$ to be machined first,
+
+
 
 
 \section*{Question 3}
