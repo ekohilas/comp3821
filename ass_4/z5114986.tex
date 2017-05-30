@@ -54,14 +54,14 @@ Our solution is optimal as truncating the solution $i$ will produce the optimal 
 $^1$ Sorting by the weight will also achieve the same result provided the method is inversed.\\
 $^2$ If two elephants have the same value, we then sort those elephants by the respective inverse of the other value.
 
-%\pagebreak
+\pagebreak
 \section*{Question 2}
 Let $A$ be the sequence of wooden peices that will be cut from dividing the wooden stick respective to its marks, with $A[i]$ denoting the size of the $i^{th}$ peice in the sequence.\\
 Let $n$ be the total number of respective peices.
 
-Let the subproblems to be considered as $c(i, j)$ be the minimum of the group of two or more peices, and the group of the remaining peices. This group signifies a group to that will be "joined back together", to simulate the cut cost.
+Let the subproblems to be considered as $c(i, j)$ be the minimum of the group of two or more peices, and the group of the remaining peices. This group signifies a group to that will be "joined back together", to simulate the cutting cost.
 
-The recursion:\\
+The recursion:
 \begin{align*}
 c(i, j) = \min
 \begin{cases}
@@ -73,16 +73,30 @@ c(i, j) = \min
 
 Using this, we then examine every possible way of placing the outermost groupings, which follows from above when $c(0, n)$. Doing so will calculate the solutions of all the subproblems, however some will have already been calculated and stored in slots $(i, j)$ of our table.
 
-Our solution is trivially optimal as we are solving through an exhuastive search.
-
-\textbf{Proof of optimality:}\\
-text
+Since we are examining every possible grouping, our solution is trivially optimal.
 
 \section*{Question 3}
-r(i+1, j) if not equal
-r(i+1, j+1) + r(i+1, j) if equal
+
+Let $A$ be a sequence of Roman letters, with $A[i]$ denoting the $i^{th}$ letter of $A$.\\
+Let $B$ be a sequence of Roman letters, with $B[i]$ denoting the $i^{th}$ letter of $B$.
+
+
+Assuming our base cases are solved, we fill our table $T$, for all $0 \leq a < |A|$ and all $0 \leq b < |B|$ (row by row) as shown in the recursion:
+\begin{align*}
+s(a, b) =
+\begin{cases}
+    s(a, b+1),              & \text{if } A[a] \neq B[b]\\
+    s(a, b+1) + s(a+1, b+1) & \text{if } A[a] = B[b]
+\end{cases}
+\end{align*}
+
+Finally, the number of sequences found will then be stored in the bottom right of the table, $T[|A|-1][|B|-1]$.
+
+Since we are iterating over every combination of characters, our solution is trivially optimal.
 
 \section*{Question 4}
+
+
 solution of your children
 or your value plus the solution of your grandchildren
 
