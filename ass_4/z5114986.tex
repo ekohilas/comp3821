@@ -107,11 +107,12 @@ Thus, our solution is optimal as truncating the solution $i$ will still produce 
 
 \section*{Question 5}
 \begin{align*}
-r(a, b, i) =
+r(x, y, z) =
 \begin{cases}
-    r(a+1, b, i+1), & \text{if } A[a] = S[i]\\
-    r(a, b+1, i+1), & \text{if } B[b] = S[i]\\
-    True            & \text{if } a == length(A) and b == length(b) and i== length(i)
+    True            & \text{if we've reached the end of all the strings}\\
+    r(x+1, y, z+1), & \text{if } X[x] = Z[z]\\
+    r(x, y+1, z+1), & \text{if } Y[y] = Z[z]\\
+    False           & \text{otherwise}
 \end{cases}
 \end{align*}
 %if A[a] == S[j]:
