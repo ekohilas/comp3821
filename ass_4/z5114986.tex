@@ -112,16 +112,15 @@ r(a, b, i) =
     r(a+1, b, i+1), & \text{if } A[a] = S[i]\\
     r(a, b+1, i+1), & \text{if } B[b] = S[i]\\
     True            & \text{if } a == length(A) and b == length(b) and i== length(i)
-
 \end{cases}
 \end{align*}
-if A[a] == S[j]:
-    r(a+1, b, j+1)
-if B[b] == S[j]:
-    r(a, b+1, j+1)
-add the matching string to a set, check for existance before recursing
+%if A[a] == S[j]:
+%    r(a+1, b, j+1)
+%if B[b] == S[j]:
+%    r(a, b+1, j+1)
+%add the matching string to a set, check for existance before recursing
 
 \section*{Question 6}
-extend towers by always picking the lightest turtle and then ordering by the sum of their Strength and weights
+Extend towers by always picking the lightest turtle and then ordering by the sum of their Strength and weights
 
 \end{document}
