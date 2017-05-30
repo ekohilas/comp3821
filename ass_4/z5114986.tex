@@ -95,12 +95,26 @@ Finally, the number of sequences found will then be stored in the bottom right o
 Since we are iterating over every combination of characters, our solution is trivially optimal.
 
 \section*{Question 4}
+Let each supervisor be a node.
+Let the supervisors' employees' be the node's children.
+Let the fun rating of an employee be value.
 
+We then let our subproblem be the maximum of either the total maximum of a node's children, or total of the node's value and the maximum of each children's children.
 
-solution of your children
-or your value plus the solution of your grandchildren
+We do this process recursively, assuming we have solved all the subproblems for some $i$. By picking the maximal set of positioned nodes, we are always extending our original subproblem with the largest total value to obtain an increasing total value that must end at the current node.
+
+Thus, our solution is optimal as truncating the solution $i$ will still produce the optimal solution of the subproblem $m$.
 
 \section*{Question 5}
+\begin{align*}
+r(a, b, i) =
+\begin{cases}
+    r(a+1, b, i+1), & \text{if } A[a] = S[i]\\
+    r(a, b+1, i+1), & \text{if } B[b] = S[i]\\
+    True            & \text{if } a == length(A) and b == length(b) and i== length(i)
+
+\end{cases}
+\end{align*}
 if A[a] == S[j]:
     r(a+1, b, j+1)
 if B[b] == S[j]:
