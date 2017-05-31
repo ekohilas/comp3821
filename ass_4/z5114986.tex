@@ -24,7 +24,7 @@
     \begin{LARGE}
         COMP3121\\
         Assignment 4\\
-        A17S1N3\\
+        A17S1N4\\
         \hrulefill\\
         Evangelos Kohilas\\
         z5114986\\
@@ -38,19 +38,20 @@
 \end{center}
 
 \section*{Question 1}
-To create the longest subsequence of elephants, we first sort the elephants in decreasing order of IQs$^{12}$.
+To create the longest subsequence of elephants, we first sort the elephants in decreasing order of IQs$^{1, 2}$.
 
 Then, we find the longest increasing subsequence of weight from our collection of sorted elephants.
 
-Let $S$ be our sorted collection, with $S[i]$ denoting the $i^{th}$ elephant in the sequence.\\
+Let $S$ be our sorted collection, with $S_i$ denoting the $i^{th}$ elephant in the sequence.\\
 Let $W(i)$ be the given weight of elephant $i$.
 
 Then, for each elephant $i$ in the collection, we let our subproblem be finding a subsequence of maximum length such that $W(i)$ is increasing and the subsequence ends with elephant $i$.
 
-We do this process recursively, assuming we have solved all the subproblems for some $j < i$, and we look for all elephants $m$ such that $W(m) \leq W(i)$ and $S[m] \leq S[i]$, picking elephant $m$ which produced the longest increasing subsequence ending with $m$, and extending it to our subproblem to obtain the longest increasing subsequence ending with elephant $i$
+We do this process recursively, assuming we have solved all the subproblems for some $j < i$, and we look for all elephants $m$ such that $W(m) \leq W(i)$ and $S_m \leq S_i$, picking elephant $m$ which produced the longest increasing subsequence ending with $m$, and extending it to our subproblem to obtain the longest increasing subsequence ending with elephant $i$.
 
-Our solution is optimal as truncating the solution $i$ will produce the optimal solution of the subproblem $m$.
+Our solution is optimal as truncating the solution $i$ will produce the optimal solution of the subproblem $m$.\\
 
+\hrule
 $^1$ Sorting by the weight will also achieve the same result provided the method is inversed.\\
 $^2$ If two elephants have the same value, we then sort those elephants by the respective inverse of the other value.
 
@@ -59,7 +60,7 @@ $^2$ If two elephants have the same value, we then sort those elephants by the r
 Let $A$ be the sequence of wooden peices that will be cut from dividing the wooden stick respective to its marks, with $A[i]$ denoting the size of the $i^{th}$ peice in the sequence.\\
 Let $n$ be the total number of respective peices.
 
-Let the subproblems to be considered as $c(i, j)$ be the minimum of the group of two or more peices, and the group of the remaining peices. This group signifies a group to that will be "joined back together", to simulate the cutting cost.
+Let the subproblems to be considered be denoted as $c(i, j)$ and be the minimum of the group of two or more peices, and the group of the remaining peices. This group signifies a group to that will be ``joined back together'', to simulate the cutting cost.
 
 The recursion:
 \begin{align*}
@@ -71,17 +72,15 @@ c(i, j) = \min
     : i < k < j - 1
 \end{align*}
 
-Using this, we then examine every possible way of placing the outermost groupings, which follows from above when $c(0, n)$. Doing so will calculate the solutions of all the subproblems, however some will have already been calculated and stored in slots $(i, j)$ of our table.
+Using this, we then examine every possible way of placing the outermost groupings, which follows from above when $c(0, n-1)$. Doing so will calculate the solutions of all the subproblems, however some will have already been calculated and stored in slots $(i, j)$ of our table.
 
 Since we are examining every possible grouping, our solution is trivially optimal.
 
 \section*{Question 3}
-
 Let $A$ be a sequence of Roman letters, with $A[i]$ denoting the $i^{th}$ letter of $A$.\\
 Let $B$ be a sequence of Roman letters, with $B[i]$ denoting the $i^{th}$ letter of $B$.
 
-
-Assuming our base cases are solved, we fill our table $T$, for all $0 \leq a < |A|$ and all $0 \leq b < |B|$ (row by row) as shown in the recursion:
+Assuming our base cases are solved, we fill our table $T$, for all $0 \leq a < |A|$ and all $0 \leq b < |B|$ (row by row) as shown in the recursion, where we let $a, b$ be the starting position of strings $A, B$.
 \begin{align*}
 s(a, b) =
 \begin{cases}
@@ -94,28 +93,38 @@ Finally, the number of sequences found will then be stored in the bottom right o
 
 Since we are iterating over every combination of characters, our solution is trivially optimal.
 
+\pagebreak
 \section*{Question 4}
-Let each supervisor be a node.
-Let the supervisors' employees' be the node's children.
-Let the fun rating of an employee be value.
+Let each supervisor be a node.\\
+Let the supervisors' employees' be the node's children.\\
+Let the fun rating of an employee be the node's value.
 
-We then let our subproblem be the maximum of either the total maximum of a node's children, or total of the node's value and the maximum of each children's children.
+We then let our subproblem be the maximum of either, the total maximum of a node's children, or total of the node's value and the maximum of each children's children.
 
 We do this process recursively, assuming we have solved all the subproblems for some $i$. By picking the maximal set of positioned nodes, we are always extending our original subproblem with the largest total value to obtain an increasing total value that must end at the current node.
 
 Thus, our solution is optimal as truncating the solution $i$ will still produce the optimal solution of the subproblem $m$.
 
 \section*{Question 5}
+Let $X, Y$ be a bit string, where $X[i], Y[i]$ denote the $i^{th}$ bit of the respective string.\\
+Let $Z$ be the interleaved bit string, where $Z[i]$ denotes the $i^{th}$ bit of $Z$.
+
+Assuming our base cases are solved, we fill our table $T$, for all $0 \leq a < |X|$ and all $0 \leq b < |Y|$ (row by row) as shown in the recursion, where we let $x, y$ be the starting position of strings $X, Y$.
 \begin{align*}
-r(x, y, z) =
+r(x, y) =
 \begin{cases}
-    True            & \text{if we've reached the end of all the strings}\\
-    r(x+1, y, z+1), & \text{if } X[x] = Z[z]\\
-    r(x, y+1, z+1), & \text{if } Y[y] = Z[z]\\
-    False           & \text{otherwise}
+    True,       & \text{if we've reached the end of all the strings}\\
+    r(x+1, y),  & \text{if } X[x] = Z[x + y]\\
+    r(x, y+1),  & \text{if } Y[y] = Z[x + y]\\
+    False       & \text{otherwise}
 \end{cases}
 \end{align*}
 
+Finally, solution will then be stored in the bottom right of the table, $T[|X|-1][|Y|-1]$.
+
+Since we are iterating over every combination of characters, our solution is trivially optimal.
+
+\pagebreak
 \section*{Question 6}
 Let our collection of turtles be denoted by $T$, with $T_i$ denoting the $i^{th}$ turtle.\\
 Let the weight and strength of the turtle $T_i$ be $W(T_i)$ and $S(T_i)$ respectively.
@@ -136,10 +145,10 @@ $W(T_i) + S(T_i) > W(T_{i+1}) + S(T_{i+1})$, then:
     \sum^{i+1}_{j = 1} W(T_j) &\leq S(T_{i+1}) + W(T_{i+1}) < S(T_i) + W(T_i)\\
     \intertext{Then expand the sum }
     \sum^{i-1}_{j = 1} W(T_j) &+ W(T_i) + W(T_{i+1}) < S(T_i) + W(T_i)
-    \intertext{Cancelling our the common terms, we then conclude that}
+    \intertext{Cancelling our the common terms, we then conclude that,}
     \sum^{i-1}_{j = 1} W(T_j) &+ W(T_{i+1}) < S(T_i)
 \end{align*}
-such that the left hand side will be what the turtle $T_i$ will see, which is less than the $S(T_i)$.
+such that the left hand side will be what the turtle $T_i$ will see, which is less than $S(T_i)$.
 Therefore the weight of the turtles above the swapped turtle's is less than it's strength, and thus our turtles will not crack if they are swapped.
 
 Thus, by using the above and building the lightest possible tower of every possible length, we can then obtain a solution for any tower $t$ by picking the longest tower obtained by solving $t$.
