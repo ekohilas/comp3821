@@ -57,10 +57,10 @@ $^2$ If two elephants have the same value, we then sort those elephants by the r
 
 \pagebreak
 \section*{Question 2}
-Let $A$ be the sequence of wooden peices that will be cut from dividing the wooden stick respective to its marks, with $A[i]$ denoting the size of the $i^{th}$ peice in the sequence.\\
-Let $n$ be the total number of respective peices.
+Let $A$ be the sequence of wooden pieces that will be cut from dividing the wooden stick respective to its marks, with $A[i]$ denoting the size of the $i^{th}$ piece in the sequence.\\
+Let $n$ be the total number of respective pieces.
 
-Let the subproblems to be considered be denoted as $c(i, j)$ and be the minimum of the group of two or more peices, and the group of the remaining peices. This group signifies a group to that will be ``joined back together'', to simulate the cutting cost.
+Let the subproblems to be considered be denoted as $c(i, j)$ and be the minimum of the group of two or more pieces, and the group of the remaining pieces. This group signifies a group to that will be ``joined back together'', to simulate the cutting cost.
 
 The recursion:
 \begin{align*}
@@ -91,7 +91,7 @@ s(a, b) =
 
 Finally, the number of sequences found will then be stored in the bottom right of the table, $T[|A|-1][|B|-1]$.
 
-Since we are iterating over every combination of characters, our solution is trivially optimal.
+Since we are iterating over every combination of characters, our solution is trivially optimal as truncating the solution will still produce the optimal solution for the previous solution.
 
 \pagebreak
 \section*{Question 4}
@@ -122,7 +122,7 @@ r(x, y) =
 
 Finally, solution will then be stored in the bottom right of the table, $T[|X|-1][|Y|-1]$.
 
-Since we are iterating over every combination of characters, our solution is trivially optimal.
+Since we are iterating over every combination of characters, our solution is trivially optimal as truncating the solution will still produce the optimal solution for the previous solution.
 
 \pagebreak
 \section*{Question 6}
@@ -135,7 +135,7 @@ However a longest chain may not have the last turtle included as the lowest turt
 
 Instead we define a new subproblem to find the lightest turtle tower of length $l$ such that no turtles will be cracked, and we define our ordering to use the sum of a turtle's weight and strength, denoted by $W(T_i) + S(T_i)$
 
-We claim that if there exists a tower of length $l$, then there must exist a tower of the same length such that $W(T_i) + S(T_i) \leq W(T_{i+1}) + S(T_{i+1}) $ for all $i < l$. By proving this, and showing that the swapping of two adjacent unordered turtles where $W(T_{i+1}) + S(T_{i+1}) \leq W(T_i) + S(T_i)$ such that they will preserve our constraints, we can then BubbleSort our stack approrpiately.
+We claim that if there exists a tower of length $l$, then there must exist a tower of the same length such that $W(T_i) + S(T_i) \leq W(T_{i+1}) + S(T_{i+1}) $ for all $i < l$. By proving this, and showing that the swapping of two adjacent unordered turtles where $W(T_{i+1}) + S(T_{i+1}) \leq W(T_i) + S(T_i)$ such that they will preserve our constraints, we can then BubbleSort our stack appropriately.
 
 Assume turtles $T_i$ and $T_{i+1}$ are inverted in our stack such that $T_{i+1}$ is lower in the stack, and\\
 $W(T_i) + S(T_i) > W(T_{i+1}) + S(T_{i+1})$, then:
