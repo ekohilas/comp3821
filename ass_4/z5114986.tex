@@ -60,16 +60,16 @@ $^2$ If two elephants have the same value, we then sort those elephants by the r
 Let $A$ be the sequence of wooden pieces that will be cut from dividing the wooden stick respective to its marks, with $A[i]$ denoting the size of the $i^{th}$ piece in the sequence.\\
 Let $n$ be the total number of respective pieces.
 
-Let the subproblems to be considered be denoted as $c(i, j)$ and be the minimum of the group of two or more pieces, and the group of the remaining pieces. This group signifies a group to that will be ``joined back together'', to simulate the cutting cost.
+Let the subproblems to be considered be denoted as $c(i, j)$ and be the minimum of the group of one or more pieces, and the group of the remaining pieces. This group signifies a group to that will be ``joined back together'', to simulate the cutting cost.
 
 The recursion:
 \begin{align*}
 c(i, j) = \min
 \begin{cases}
-    A[i] + A[j],        & \text{if } j - i = 1\\
+    A[i],        & \text{if } j = i\\
     c(i, k) + c(k+1, j) & \text{otherwise}\\
 \end{cases}
-    : i < k < j - 1
+    : i \leq k \leq j - 1
 \end{align*}
 
 Using this, we then examine every possible way of placing the outermost groupings, which follows from above when $c(0, n-1)$. Doing so will calculate the solutions of all the subproblems, however some will have already been calculated and stored in slots $(i, j)$ of our table.
