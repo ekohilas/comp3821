@@ -47,7 +47,7 @@ Let $W(i)$ be the given weight of elephant $i$.
 
 Then, for each elephant $i$ in the collection, we let our subproblem be finding a subsequence of maximum length such that $W(i)$ is increasing and the subsequence ends with elephant $i$.
 
-We do this process recursively, assuming we have solved all the subproblems for some $j < i$, and we look for all elephants $m$ such that $W(m) \leq W(i)$ and $S[m] \leq  S[i]$, picking elephant $m$ which produced the longest increasing subsequence ending with $m$, and extending it to our subproblem to obtain the longest increasing subsequence ending with elephant $i$
+We do this process recursively, assuming we have solved all the subproblems for some $j < i$, and we look for all elephants $m$ such that $W(m) \leq W(i)$ and $S[m] \leq S[i]$, picking elephant $m$ which produced the longest increasing subsequence ending with $m$, and extending it to our subproblem to obtain the longest increasing subsequence ending with elephant $i$
 
 Our solution is optimal as truncating the solution $i$ will produce the optimal solution of the subproblem $m$.
 
@@ -115,13 +115,33 @@ r(x, y, z) =
     False           & \text{otherwise}
 \end{cases}
 \end{align*}
-%if A[a] == S[j]:
-%    r(a+1, b, j+1)
-%if B[b] == S[j]:
-%    r(a, b+1, j+1)
-%add the matching string to a set, check for existance before recursing
 
 \section*{Question 6}
-Extend towers by always picking the lightest turtle and then ordering by the sum of their Strength and weights
+Let our collection of turtles be denoted by $T$, with $T_i$ denoting the $i^{th}$ turtle.\\
+Let the weight and strength of the turtle $T_i$ be $W(T_i)$ and $S(T_i)$ respectively.
 
+Then for each turtle in $T$, we let our subproblem be finding the longest chain of turtles such that each turtle's strength is larger than or equal to the total weight of all turtles above it.
+
+However a longest chain may not have the last turtle included as the lowest turtle in the tower, thus our chains cannot be extensions of one another.
+
+Instead we define a new subproblem to find the lightest turtle tower of length $l$ such that no turtles will be cracked, and we define our ordering to use the sum of a turtle's weight and strength, denoted by $W(T_i) + S(T_i)$
+
+We claim that if there exists a tower of length $l$, then there must exist a tower of the same length such that $W(T_i) + S(T_i) \leq W(T_{i+1}) + S(T_{i+1}) $ for all $i < l$. By proving this, and showing that the swapping of two adjacent unordered turtles where $W(T_{i+1}) + S(T_{i+1}) \leq W(T_i) + S(T_i)$ such that they will preserve our constraints, we can then BubbleSort our stack approrpiately.
+
+Assume turtles $T_i$ and $T_{i+1}$ are inverted in our stack such that $T_{i+1}$ is lower in the stack, and\\
+$W(T_i) + S(T_i) > W(T_{i+1}) + S(T_{i+1})$, then:
+\begin{align*}
+    \sum^{i}_{j = 1} W(T_j) &\leq S(T_{i+1})\\
+    \intertext{Now we add turtle $T_{i+1}$}
+    \sum^{i+1}_{j = 1} W(T_j) &\leq S(T_{i+1}) + W(T_{i+1}) < S(T_i) + W(T_i)\\
+    \intertext{Then expand the sum }
+    \sum^{i-1}_{j = 1} W(T_j) &+ W(T_i) + W(T_{i+1}) < S(T_i) + W(T_i)
+    \intertext{Cancelling our the common terms, we then conclude that}
+    \sum^{i-1}_{j = 1} W(T_j) &+ W(T_{i+1}) < S(T_i)
+\end{align*}
+such that the left hand side will be what the turtle $T_i$ will see, which is less than the $S(T_i)$.
+Therefore the weight of the turtles above the swapped turtle's is less than it's strength, and thus our turtles will not crack if they are swapped.
+
+Thus, by using the above and building the lightest possible tower of every possible length, we can then obtain a solution for any tower $t$ by picking the longest tower obtained by solving $t$.
+%Extend towers by always picking the lightest turtle and then ordering by the sum of their Strength and weights
 \end{document}
